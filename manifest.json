@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "Chrome Mustache Insert",
+  "description": "A rainbow of 'staches for a better world",
+  "version": "0.1",
+  "default_locale": "en",
+  "icons": {
+    "128": "128.png"
+  },
+  "browser_action": {
+    "default_icon": {              
+      "16": "images/icon16.png"  
+    },
+    "default_title": "Stach it up"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "permissions": [
+    "webRequest",
+    "<all_urls>",
+    "webRequestBlocking"
+  ]
+}
