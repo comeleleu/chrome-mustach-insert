@@ -14,6 +14,14 @@
     "default_title": "Stach it up",
     "default_popup": "popup.html"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "al_frames": true
+    }
+  ],
   "background": {
     "scripts": [
       "background.js",
