@@ -5,19 +5,24 @@
   "version": "0.1",
   "default_locale": "en",
   "icons": {
-    "128": "128.png"
+    "128": "images/128.png"
   },
   "browser_action": {
-    "default_icon": {              
-      "16": "images/icon16.png"  
+    "default_icon": {
+      "16": "images/icon16.png"
     },
-    "default_title": "Stach it up"
+    "default_title": "Stach it up",
+    "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js",
+      "contextmenu.js"
+    ],
     "persistent": true
   },
   "permissions": [
+    "contextMenus",
     "webRequest",
     "<all_urls>",
     "webRequestBlocking"
