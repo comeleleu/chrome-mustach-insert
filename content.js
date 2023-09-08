@@ -35,10 +35,6 @@ async function add_mustache(node) {
 }
 
 async function draw(img, resizedDetections) {
-  const stach = chrome.runtime.getURL("images/mustaches/mustache_1.png")
-
-  
-
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d", { willReadFrequently: true });
   
