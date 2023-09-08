@@ -105,11 +105,15 @@ async function replaceImage(img, resizedDetections) {
         img.src = json.output[0];
         img.setAttribute("data-stached", true);
         img.setAttribute("data-stached-ai", true);
-      } else if (json.status == "processing") {
+      }
+      else {
         draw(node, resizedDetections);
       }
     })
-    .catch((error) => console.log("error", error));
+    .catch(error => {
+      console.log('error', error)
+      draw(node, resizedDetections);
+    });
 }
 
 function draw(img, resizedDetections) {
