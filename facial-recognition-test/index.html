@@ -8,23 +8,54 @@
   <script defer src="face-api.min.js"></script>
   <script defer src="script.js"></script>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+     /* Center the grid on the page */
+     body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin: 0;
+        }
 
-    canvas {
-      position: absolute;
-    }
+        /* Create a grid container */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 33% 33% 33%;
+            gap: 20px; /* Adjust the gap between grid items */
+            max-width: 90%; /* Set a maximum width for the grid */
+        }
+
+        /* Style grid items (images) */
+        .grid-item {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Style the images within the grid items */
+        .grid-item img {
+            max-width: 100%;
+            max-height: 100%;
+        }
   </style>
 </head>
 <body>
-  <!-- <video id="video" width="720" height="560" autoplay muted></video> -->
-  <img id="luc" src="images/multi-ethnic-guys-and-girls-taking-selfie-outdoors-with-backlight-happy-life-style-friendship.jpg" alt="Luc">
+  <div class="grid-container">
+      <div class="grid-item"><img id="libeo" src="images/libeo.jpeg" alt="libeo" /></div>
+      <div class="grid-item"><img id="rum" src="https://images.radio-canada.ca/v1/ici-info/16x9/start-up-weekend-shawinigan-rum-and-code.jpg" alt="rum" /></div>
+      <div class="grid-item"><img id="team" src="images/rascals.jpeg" alt="rascals" /></div>
+      <div class="grid-item"><img id="team" src="images/cleopatre.jpeg" alt="cleo" /></div>
+      <div class="grid-item"><img id="team" src="images/beatles.avif" alt="beatles" /></div>
+      <div class="grid-item"><img id="team" src="images/luc.png" alt="luc" /></div>
+      <div class="grid-item"><img id="team" src="images/primes.jpeg" alt="primes" /></div>
+      <div class="grid-item"><img id="team" src="images/jeanine.jpeg" alt="jeanine" /></div>
+      <div class="grid-item"><img id="team" src="images/backstreet_boys.jpeg" alt="backstreet_boys" /></div>
+      <div class="grid-item"><img id="team" src="images/napoleon.webp" alt="jeanine" /></div>
+      <div class="grid-item"><img id="multi" src="images/multi-ethnic-guys-and-girls-taking-selfie-outdoors-with-backlight-happy-life-style-friendship.jpg" alt="Luc" /></div>
+      <div class="grid-item"><img id="team" src="images/peppa_3.jpeg" alt="peppa" /></div>
+      <div class="grid-item"><img id="team" src="images/mona.webp" alt="peppa" /></div>
+      <div class="grid-item"><img id="team" src="images/Team_Moustache.jpg" alt="peppa" /></div>
+  </div>
+</div>
+
 </body>
 </html>
