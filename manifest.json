@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Chrome Mustache Insert",
+  "name": "Mustachizer",
   "description": "A rainbow of 'staches for a better world",
   "version": "0.1",
   "default_locale": "en",
