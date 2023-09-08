@@ -1,0 +1,24 @@
+{% extends "layouts/single-column.twig" %}
+
+{% block content %}
+
+<div class="grid-container">
+    <label>Actif</label>
+    <div class="switch">
+        <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch">
+        <label class="switch-paddle" for="exampleSwitch">
+            <span class="show-for-sr">Enabled / Disabled</span>
+        </label>
+    </div>
+
+    <label>Choisir le style de moustache
+    <select>
+        <option value="classic">Classique</option>
+        <option value="handlebar">Handlebar</option>
+        <option value="pinchmou">Pinch mou/</option>
+        <option value="crazy">Go crazy</option>
+    </select>
+    </label>
+</div>
+
+{% endblock %}
