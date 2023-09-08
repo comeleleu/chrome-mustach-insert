@@ -1,0 +1,22 @@
+@use "sass:math";
+// Remove-px
+@function remove-px($target) {
+    @if not unitless($target) {
+        @return math.div($target, 1px);
+    } @else {
+        @return $target;
+    }
+}
+
+// Calculate REM
+@function rem($size) {
+    $values: ();
+    @if type-of($size) == list {
+        @each $current in $size {
+            $values: append($values, math.div(remove-px($size), 16) * 1rem);
+        }
+    } @else {
+        $values: math.div(remove-px($size), 16) * 1rem;
+    }
+    @return $values;
+}

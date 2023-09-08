@@ -1,0 +1,24 @@
+// ** Variables **
+
+// -- Color definitions --
+// Colors here should have a distinct name (avoid light, dark, lightest, etc.)
+// Use http://chir.ag/projects/name-that-color/ if you don't have a name
+// Should prioritize names from style documents
+// Begins with $color-
+
+$color-white: #fff;
+$color-black: #000;
+$color-dusty-gray: #999;
+$color-gallery: #efefef;
+$color-cod-grey: #1a1a1a;
+$color-torch-red: #ff1a20;
+
+// -- Color uses --
+// Colors here should use a color above to be asigned to a use in an other module
+// Begins with $c-
+
+$c-body-bg: $color-white;
+$c-body-text: $color-cod-grey;
+$c-hr-border: $color-cod-grey;
+$c-form-inputs-border: $color-cod-grey;
+$c-form-alert: $color-torch-red;
