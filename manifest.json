@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Chrome Mustache Insert",
+  "name": "Mustachizer",
   "description": "A rainbow of 'staches for a better world",
   "version": "0.1",
   "default_locale": "en",
@@ -9,7 +9,7 @@
   },
   "browser_action": {
     "default_icon": {
-      "16": "images/icon16.png"
+      "16": "images/moustache.png"
     },
     "default_title": "Stach it up",
     "default_popup": "popup.html"
@@ -25,6 +25,7 @@
     {
       "matches": ["<all_urls>"],
       "js": ["face-api.min.js", "content.js"],
+      "css": ["css/app.css"],
       "run_at": "document_start",
       "al_frames": true
     }
