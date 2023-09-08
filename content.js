@@ -55,20 +55,14 @@ function add_mustache(node) {
       resolve();
       return;
     }
-<<<<<<< Updated upstream
 
-    if (document.querySelectorAll('img[data-stached-ai]').length <= 3 && Math.floor(Math.random() * 100) < 5) {
+    if (document.querySelectorAll("img[data-stached-ai]").length <= 3 && Math.floor(Math.random() * 100) < 5) {
       await replaceImage(node, resizedDetections);
     } else {
-      await draw(node, resizedDetections)
+      await draw(node, resizedDetections);
     }
 
-    resolve()
-=======
-    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-    await draw(node, resizedDetections);
     resolve();
->>>>>>> Stashed changes
   });
 }
 
@@ -78,45 +72,44 @@ async function replaceImage(img, resizedDetections) {
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
-    "key": "DSZQGGaPcb3HdpexWRvxkP7rN7GrLIcwr6RErIW9AzLL7ezVQrS1r0clJd9g",
-    "prompt": "Add a mustach",
-    "negative_prompt": null,
-    "init_image": imageUrl,
-    "width": "512",
-    "height": "512",
-    "samples": "1",
-    "num_inference_steps": "30",
-    "safety_checker": "yes",
-    "enhance_prompt": "yes",
-    "guidance_scale": 7,
-    "strength": 0.3,
-    "seed": null,
-    "webhook": null,
-    "track_id": null
+    key: "DSZQGGaPcb3HdpexWRvxkP7rN7GrLIcwr6RErIW9AzLL7ezVQrS1r0clJd9g",
+    prompt: "Add a mustach",
+    negative_prompt: null,
+    init_image: imageUrl,
+    width: "512",
+    height: "512",
+    samples: "1",
+    num_inference_steps: "30",
+    safety_checker: "yes",
+    enhance_prompt: "yes",
+    guidance_scale: 7,
+    strength: 0.3,
+    seed: null,
+    webhook: null,
+    track_id: null,
   });
 
   var requestOptions = {
-    method: 'POST',
+    method: "POST",
     headers: myHeaders,
     body: raw,
-    redirect: 'follow'
+    redirect: "follow",
   };
 
   fetch("https://stablediffusionapi.com/api/v3/img2img", requestOptions)
-    .then(response => response.text())
-    .then(result => {
+    .then((response) => response.text())
+    .then((result) => {
       let json = JSON.parse(result);
 
       if (json.status == "success") {
         img.src = json.output[0];
         img.setAttribute("data-stached", true);
         img.setAttribute("data-stached-ai", true);
-      }
-      else if (json.status == "processing") {
+      } else if (json.status == "processing") {
         draw(node, resizedDetections);
       }
     })
-    .catch(error => console.log('error', error));
+    .catch((error) => console.log("error", error));
 }
 
 function draw(img, resizedDetections) {
