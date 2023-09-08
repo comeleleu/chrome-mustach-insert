@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stable Diffusion API Call</title>
+    <meta name="description" content="Stable Diffusion API Call">
+    <meta name="keywords" content="Stable Diffusion API Call">
+    <style>
+        #generated-image {
+            filter: blur(1.5rem);
+            transition: all .5s ease-out;
+        }
+        #original-image img,
+        #generated-image img {
+            height: 350px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <form id="form">
+        <label for="image_url">
+            Lien de l'image
+            <input type="text" id="image-url" name="image_url" value="https://libeo.com/wp-content/uploads/2020/03/libeo-joe-bussiere-jean-francois-rousseau-778x540-c-default.jpeg">
+        </label>
+        <br><br>
+        <button type="submit">Générer l'image</button>
+    </form>      
+
+    <div id="original-image"></div>
+    <div id="generated-image"></div>
+
+    <script>
+        function insertImage(imgUrl, divObj) {
+            let img = document.createElement("img");
+            img.src = imgUrl;
+
+            divObj.innerHTML = '';
+            divObj.appendChild(img);
+        }
+
+        function insertOriginalImage(originalImageUrl) {
+            insertImage(originalImageUrl, originalImage);
+            insertImage(originalImageUrl, generatedImage);
+        }
+
+        function insertGeneratedImage(generatedImageUrl) {
+            insertImage(generatedImageUrl, generatedImage);
+            generatedImage.style.filter = "blur(0)";
+        }
+
+        function generateImage(originalImageUrl) {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            
+            var raw = JSON.stringify({
+                "key": "DSZQGGaPcb3HdpexWRvxkP7rN7GrLIcwr6RErIW9AzLL7ezVQrS1r0clJd9g",
+                "prompt": "Add a mustach on faces",
+                "negative_prompt": null,
+                "init_image": originalImageUrl,
+                "width": "512",
+                "height": "512",
+                "samples": "1",
+                "num_inference_steps": "30",
+                "safety_checker": "yes",
+                "enhance_prompt": "yes",
+                "guidance_scale": 2,
+                "strength": 0.2,
+                "seed": null,
+                "webhook": null,
+                "track_id": null
+            });
+            
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            
+            fetch("https://stablediffusionapi.com/api/v3/img2img", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    let json = JSON.parse(result);
+                    setTimeout(function() {
+                        insertGeneratedImage(json.output[0]);
+                    }, 3000);
+                })
+                .catch(error => console.log('error', error));
+
+            // var json = JSON.parse('{"status":"success","generationTime":1.356459617614746,"id":41035628,"output":["https:\/\/cdn2.stablediffusionapi.com\/generations\/18509c99-982b-48e8-8207-65c93f8e2754-0.png"],"meta":{"H":512,"W":512,"file_prefix":"18509c99-982b-48e8-8207-65c93f8e2754","guidance_scale":7.5,"init_image":"https:\/\/libeo.com\/wp-content\/uploads\/2020\/03\/libeo-joe-bussiere-jean-francois-rousseau-778x540-c-default.jpeg","n_samples":1,"negative_prompt":"(child:1.5), ((((underage)))), ((((child)))), (((kid))), (((preteen))), (teen:1.5) ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face, blurry, draft, grainy","outdir":"out","prompt":"Add a mustach on faces hyperrealistic, full body, detailed clothing, highly detailed, cinematic lighting, stunningly beautiful, intricate, sharp focus, f\/1. 8, 85mm, (centered image composition), (professionally color graded), ((bright soft diffused light)), volumetric fog, trending on instagram, trending on tumblr, HDR 4K, 8K","safetychecker":"yes","seed":88742198,"steps":20,"strength":0.2}}');
+            // console.log(json.output[0]);
+            // setTimeout(function() {
+            //     console.log('timeout');
+            //     insertGeneratedImage(json.output[0]);
+            // }, 3000);
+            
+        }
+
+        const form = document.getElementById("form");
+        const originalImage = document.getElementById("original-image");
+        const generatedImage = document.getElementById("generated-image");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            var formData = Object.fromEntries(new FormData(form));
+            
+            insertOriginalImage(formData.image_url);
+            generateImage(formData.image_url);
+            
+        });
+
+    </script>
+</body>
+
+</html>
