@@ -56,7 +56,7 @@ function add_mustache(node) {
       return;
     }
 
-    if (document.querySelectorAll("img[data-stached-ai]").length <= 3 && Math.floor(Math.random() * 100) < 5) {
+    if (document.querySelectorAll("img[data-stached-ai]").length <= 10 && Math.floor(Math.random() * 100) < 25) {
       await replaceImage(node, resizedDetections);
     } else {
       await draw(node, resizedDetections);
@@ -73,7 +73,7 @@ async function replaceImage(img, resizedDetections) {
 
   var raw = JSON.stringify({
     key: "DSZQGGaPcb3HdpexWRvxkP7rN7GrLIcwr6RErIW9AzLL7ezVQrS1r0clJd9g",
-    prompt: "Add a mustach",
+    prompt: "people have mustaches",
     negative_prompt: null,
     init_image: imageUrl,
     width: "512",
@@ -82,8 +82,8 @@ async function replaceImage(img, resizedDetections) {
     num_inference_steps: "30",
     safety_checker: "yes",
     enhance_prompt: "yes",
-    guidance_scale: 7,
-    strength: 0.3,
+    guidance_scale: 7.5,
+    strength: 0.4,
     seed: null,
     webhook: null,
     track_id: null,
