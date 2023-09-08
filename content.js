@@ -31,7 +31,91 @@ async function add_mustache(node) {
     return
   }
 
-  draw(node, resizedDetections)
+  if (document.querySelectorAll('img[data-stached-ai]').length <= 3 && Math.floor(Math.random() * 100) < 5) {
+    replaceImage(node);
+  } else {
+    draw(node, resizedDetections)
+  }
+}
+
+async function replaceImage(img) {
+  var imageUrl = img.src;
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+            
+  var raw = JSON.stringify({
+    "key": "DSZQGGaPcb3HdpexWRvxkP7rN7GrLIcwr6RErIW9AzLL7ezVQrS1r0clJd9g",
+    "prompt": "Add a mustach on faces",
+    "negative_prompt": null,
+    "init_image": imageUrl,
+    "width": "512",
+    "height": "512",
+    "samples": "1",
+    "num_inference_steps": "200",
+    "safety_checker": "yes",
+    "enhance_prompt": "yes",
+    "guidance_scale": 7,
+    "strength": 0.3,
+    "seed": null,
+    "webhook": null,
+    "track_id": null
+  });
+            
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+            
+  fetch("https://stablediffusionapi.com/api/v3/img2img", requestOptions)
+    .then(response => response.text())
+    .then(result => {
+      let json = JSON.parse(result);
+
+      if (json.status == "success") {
+        img.src = json.output[0];
+        img.setAttribute("data-stached", true);
+        img.setAttribute("data-stached-ai", true);
+      }
+      else if (json.status == "processing") {
+        img.setAttribute("data-stached-ai-queue", "processing");
+        console.log("sd processing");
+        
+        let i = 1;
+        do {
+          setTimeout(function(){
+            
+            raw = JSON.stringify({
+              "key": "DSZQGGaPcb3HdpexWRvxkP7rN7GrLIcwr6RErIW9AzLL7ezVQrS1r0clJd9g",
+              "request_id": json.id
+            });
+  
+            fetch("https://stablediffusionapi.com/api/v3/img2img", requestOptions)
+              .then(response => response.text())
+              .then(result => {
+                let json = JSON.parse(result);
+                console.log(json);
+  
+                if (json.status == "success") {
+                  img.src = json.output[0];
+                  img.setAttribute("data-stached", true);
+                  img.setAttribute("data-stached-ai", true);
+                  img.setAttribute("data-stached-ai-queue", "done");
+                }
+              })
+              .catch(error => console.log('error', error));
+            img.setAttribute("data-stached-ai-queue", "processing-"+i);
+
+          }, 1000 * i);
+        } while (json.status != "success");
+      }
+    })
+    .catch(error => console.log('error', error));
+
+  // img.src = "https://cdn2.stablediffusionapi.com/generations/a8517009-d9ff-4b80-b07f-8271ded1ab28-0.png";
+  // img.setAttribute("data-stached", true);
+  // img.setAttribute("data-stached-ai", true);
 }
 
 async function draw(img, resizedDetections) {
