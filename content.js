@@ -216,7 +216,12 @@ window.addEventListener("load", async () => {
   ]).then((val) => {
     global_mustaches = val;
 
-    document.querySelector('.chrome-mustache-insert-extension-loader').classList.add('visible');
+    setTimeout(() => {
+      document.querySelector('.chrome-mustache-insert-extension-loader').classList.add('visible');
+      setTimeout(() => {
+        document.querySelector('.chrome-mustache-insert-extension-loader').classList.remove('visible');
+      }, 10000);
+    }, 12000);
 
     processImages(document.images)
   })
