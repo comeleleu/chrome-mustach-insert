@@ -23,7 +23,7 @@ function processImage(node) {
       return
     }
 
-    node.removeAttribute("srcset");
+    // node.removeAttribute("srcset");
 
     // node.removeAttribute("loading");
 
