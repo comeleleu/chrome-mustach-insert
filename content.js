@@ -107,12 +107,12 @@ async function replaceImage(img, resizedDetections) {
         img.setAttribute("data-stached-ai", true);
       }
       else {
-        draw(node, resizedDetections);
+        draw(img, resizedDetections);
       }
     })
     .catch(error => {
       console.log('error', error)
-      draw(node, resizedDetections);
+      draw(img, resizedDetections);
     });
 }
 
