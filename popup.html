@@ -1,11 +1,54 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
   <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>Chrome Mustache Insert</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Sagrada</title>
+    <meta name="description" content="Sagrada est le starter kit de développement front-end chez Libéo" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="./css/app.css" />
+    <link rel="icon" href="./img/favicon.ico" />
   </head>
-  <body>
-    <h1>Chrome Mustache Insert</h1>
-    <p>Une collaboration Libéo / Rum & Code</p>
-    <p>&copy; Septembre 2023</p>
+  <body id="chrome-mustache-insert-extension">
+    <div class="extension-layout">
+      <header class="header">
+        <div class="grid-container text-center">
+          <img src="images/moustache.svg" alt="" width="300" height="120">
+          <h1>Mustachizer</h1>
+          <p>A rainbow of 'staches for a better world</p>
+        </div>
+      </header>
+      <main class="l-page" id="main-content">
+        <div class="grid-container">
+          <label>Choisir le style de moustache
+          <select>
+            <option value="classic">Classique</option>
+            <option value="handlebar">Handlebar</option>
+            <option value="pinchmou">Pinch mou/</option>
+            <option value="crazy">Go crazy</option>
+          </select>
+          </label>
+
+          <label>Actif</label>
+          <div class="switch">
+            <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch">
+            <label class="switch-paddle" for="exampleSwitch">
+              <span class="show-for-sr">Enabled / Disabled</span>
+            </label>
+          </div>
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="grid-container text-center">
+          <p>Une collaboration Libéo / Rum & Code</p>
+          <p>&copy; Septembre 2023</p>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
