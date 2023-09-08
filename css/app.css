@@ -39,3 +39,32 @@
   text-rendering: optimizeLegibility;
 }
 
+/* HTML: <div class="chrome-mustache-insert-extension-loader"></div> */
+.chrome-mustache-insert-extension-loader {
+  display: none;
+  align-items: center;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: auto;
+  font-weight: bold;
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 16px;
+  background: #666666;
+  border-radius: 8px;
+  padding: 2px 8px;
+}
+.chrome-mustache-insert-extension-loader.visible {
+  display: flex;
+}
+.chrome-mustache-insert-extension-loader .spinner {
+  width: 32px;
+  height: 32px;
+  animation: spin 2s linear infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% {  transform: rotate(359deg); }
+}
