@@ -123,7 +123,7 @@ function draw(img, resizedDetections) {
 
     canvas.width = img.width;
     canvas.height = img.height;
-    context.drawImage(img, 0, 0);
+    context.drawImage(img, 0, 0, img.width, img.height);
 
     resizedDetections.forEach((face) => {
       var mustache = global_mustaches[Math.floor(Math.random() * global_mustaches.length)];
@@ -216,7 +216,6 @@ window.addEventListener("load", async () => {
   ]).then((val) => {
     global_mustaches = val;
 
-    console.log("Salut");
-    processImages(document.images);
-  });
+    processImages(document.images)
+  })
 });
