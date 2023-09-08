@@ -1,3 +1,4 @@
+let global_images = []
 /*
 Get image, detect and recognize faces, then update src image
 */
@@ -36,27 +37,25 @@ async function add_mustache(node) {
 async function draw(img, resizedDetections) {
   const stach = chrome.runtime.getURL("images/mustaches/mustache_1.png")
 
-  var image = new Image();
-  image.src = stach;
+  
 
-  image.onload = function (ev) {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d", { willReadFrequently: true });
-    
-    canvas.width = img.width;
-    canvas.height = img.height;
-    context.drawImage(img, 0, 0);
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  
+  canvas.width = img.width;
+  canvas.height = img.height;
+  context.drawImage(img, 0, 0);
 
-    resizedDetections.forEach((face) => {
-      const nose = face.landmarks._positions[33];
-      const mustacheWidth = (face.landmarks._positions[54]._x - face.landmarks._positions[48]._x) * 2;
-      const mustacheHeight = mustacheWidth / 3;
-      context.drawImage(image, nose._x - mustacheWidth / 2, nose._y - mustacheHeight / 4, mustacheWidth, mustacheHeight);
-    })
+  resizedDetections.forEach((face) => {
+    var mustache = global_images[Math.floor(Math.random() * global_images.length)];
+    const nose = face.landmarks._positions[33];
+    const mustacheWidth = (face.landmarks._positions[54]._x - face.landmarks._positions[48]._x) * 2;
+    const mustacheHeight = mustacheWidth / 3;
+    context.drawImage(mustache, nose._x - mustacheWidth / 2, nose._y - mustacheHeight / 4, mustacheWidth, mustacheHeight);
+  })
 
-    img.src = canvas.toDataURL()
-    img.setAttribute("data-stached", true);
-  }
+  img.src = canvas.toDataURL()
+  img.setAttribute("data-stached", true);
 }
 
 async function loadModels() {
@@ -66,15 +65,38 @@ async function loadModels() {
   await faceapi.nets.faceLandmark68Net.loadFromUri(model_url); // Face landmarks algorithim
 }
 
+async function loadImage(image_url) {
+  return new Promise((resolve, reject) => {
+    const stach = chrome.runtime.getURL(image_url)
+
+    var image = new Image();
+    image.src = stach;
+    image.onload = function (ev) {
+      resolve(image);
+    }
+  });
+}
 
 // Entry point
 document.addEventListener("DOMContentLoaded", async function (event) {
   await loadModels();
 
-  setInterval(async () => {
-    Array.from(document.images).forEach((img) => {
-      processImage(img);
-    });
-  }, 1000);
-  // observeMutations();
+  Promise.all([
+    loadImage("images/mustaches/mustache_1.png"),
+    loadImage("images/mustaches/mustache_2.png"),
+    loadImage("images/mustaches/mustache_3.png"),
+    loadImage("images/mustaches/mustache_4.png"),
+    loadImage("images/mustaches/mustache_5.png")
+  ]).then((val) => {
+    global_images = val;
+
+    setInterval(async () => {
+      Array.from(document.images).forEach((img) => {
+        processImage(img);
+      });
+    }, 1000);
+  })
+
+ 
+  // // observeMutations();
 });
