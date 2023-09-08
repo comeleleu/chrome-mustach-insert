@@ -7,14 +7,23 @@
   <title>Document</title>
   <script defer src="face-api.min.js"></script>
   <script defer src="script.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@800&display=swap" rel="stylesheet">
   <style>
      /* Center the grid on the page */
      body {
+            font-family: EB Garamond;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100%;
             margin: 0;
+            margin-top: 15px;
         }
 
         /* Create a grid container */
@@ -36,9 +45,56 @@
             max-width: 100%;
             max-height: 100%;
         }
+
+
+        /* #head_2 {
+            opacity: 0;
+            -webkit-transform: scale(0.9);
+                -moz-transform: scale(0.9);
+                    -ms-transform: scale(0.9);
+                    -o-transform: scale(0.9);
+                            transform: scale(0.9);
+            -webkit-transition: all 1s ease-in-out;
+                -moz-transition: all 1s ease-in-out;
+                    -ms-transition: all 1s ease-in-out;
+                    -o-transition: all 1s ease-in-out;
+                            transition: all 1s ease-in-out;
+        }
+        #head_2.visible {
+            opacity: 1;
+            -webkit-transform: none;
+                -moz-transform: none;
+                    -ms-transform: none;
+                    -o-transform: none;
+                            transform: none;
+        } */
+        /* #head_1 { opacity: 0;} */
+        .head { 
+            width: 100%;
+            visibility: visible;
+            text-align: center;
+        }
+
   </style>
 </head>
-<body>
+<body style="display: flex; flex-direction: column;">
+  <header style="padding-bottom: 100px">
+    <h1>
+        <div style="min-height: 300px"></div>
+        <div class="head" id="head_1">L'humanité... si différente, mais pourtantsi semblable a la fois.</div>
+        <div style="min-height: 450px"></div>
+        <div class="head" id="head_2">À la fin, nous cherchons tous la même chose: la joix, l'amour, un monde meilleur pour tous</div>
+        <div style="min-height: 450px"></div>
+        <div class="head" id="head_3">Et tant d'autres choses</div>
+        <div style="min-height: 450px"></div>
+        <div class="head" id="head_4">Parfois,</div>
+        <div style="min-height: 450px"></div>
+        <div class="head" id="head_5">Ça me fait pleurer.</div>
+        <div style="min-height: 450px"></div>
+        <div class="head" id="head_6">Tous ensemble, tous pareil...</div>
+        <div style="min-height: 300px"></div>
+    </h1>
+  </header>
   <div class="grid-container">
       <div class="grid-item"><img id="libeo" src="images/libeo.jpeg" alt="libeo" /></div>
       <div class="grid-item"><img id="rum" src="https://images.radio-canada.ca/v1/ici-info/16x9/start-up-weekend-shawinigan-rum-and-code.jpg" alt="rum" /></div>
@@ -57,5 +113,16 @@
   </div>
 </div>
 
+<script>
+    let cc = "cubic-bezier(.45,-0.01,.31,.99)"
+    ScrollReveal()
+    ScrollReveal().reveal('#head_1', { opacity: 0});
+    ScrollReveal().reveal('#head_2', { delay: 900, opacity: 0, easing: cc });
+    ScrollReveal().reveal('#head_3', { delay: 900, opacity: 0, easing: cc });
+    ScrollReveal().reveal('#head_4', { delay: 900, opacity: 0, easing: cc });
+    ScrollReveal().reveal('#head_5', { delay: 900, opacity: 0, easing: cc });
+    ScrollReveal().reveal('#head_6', { delay: 700, opacity: 0, easing: cc });
+
+  </script>
 </body>
 </html>
