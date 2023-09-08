@@ -2,7 +2,7 @@
 // Create a parent item and two children.
 var parent = chrome.contextMenus.create({
   "id": "parent",
-  title: "Chrome Mustache Insert",
+  title: "Mustachizer",
   contexts: ["image"]
 });
 
@@ -21,9 +21,9 @@ var child2 = chrome.contextMenus.create({
 });
 
 function reStache(info, tab) {
-  alert('Re-stache feature is available in the premium version of Chrome Mustache Insert. Please upgrade to Chrome Mustache Insert Pro to use this feature.');
+  alert('Re-stache feature is available in the premium version of Mustachizer. Please upgrade to Mustachizer Pro to use this feature.');
 }
 
 function unStache(info, tab) {
-  alert('Un-stache feature is available in the premium version of Chrome Mustache Insert. Please upgrade to Chrome Mustache Insert Pro to use this feature.');
+  alert('Un-stache feature is available in the premium version of Mustachizer. Please upgrade to Mustachizer Pro to use this feature.');
 }

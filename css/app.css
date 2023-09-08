@@ -1,0 +1,41 @@
+#chrome-mustache-insert-extension {
+  margin: 0;
+  padding: 0;
+  background: #fefefe;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #0a0a0a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+#chrome-mustache-insert-extension .extension-layout {
+  width: 480px;
+}
+#chrome-mustache-insert-extension .grid-container {
+  padding-right: 0.625rem;
+  padding-left: 0.625rem;
+  max-width: 90rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+#chrome-mustache-insert-extension .header {
+  padding: 1rem 0;
+}
+#chrome-mustache-insert-extension .header h1 {
+  font-size: 24px;
+  font-size: 1.5rem;
+  line-height: 24px;
+  line-height: 1.5rem;
+}
+#chrome-mustache-insert-extension .text-center {
+  text-align: center;
+}
+#chrome-mustache-insert-extension h1 {
+  font-family: "Alfa Slab One", cursive;
+  font-style: normal;
+  font-weight: 400;
+  color: inherit;
+  text-rendering: optimizeLegibility;
+}
+
