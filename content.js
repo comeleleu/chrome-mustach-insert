@@ -1,28 +1,27 @@
-let global_mustaches = []
+let global_mustaches = [];
 /*
 Get image, detect and recognize faces, then update src image
 */
 
 function processImages(images) {
-
-  console.log("Processing imageSSSS")
+  console.log("Processing imageSSSS");
 
   let tasks = Array.from(images).map((img) => {
     processImage(img);
-  })
+  });
 
   Promise.all(tasks).then(async () => {
-    setTimeout(() => { 
-      processImages(images)
-    }, 1000)
-  })
+    setTimeout(() => {
+      processImages(images);
+    }, 1000);
+  });
 }
 
 function processImage(node) {
   return new Promise((resolve, reject) => {
     if (node.getAttribute("data-stached") == "true") {
       resolve();
-      return
+      return;
     }
 
     node.crossOrigin = "anonymous";
@@ -34,22 +33,29 @@ function processImage(node) {
 
 function add_mustache(node) {
   return new Promise(async (resolve, reject) => {
-    console.log("Adding mustache")
-    if (node.getAttribute("data-stached") == "true") { resolve(); return }
+    console.log("Adding mustache");
+    if (node.getAttribute("data-stached") == "true") {
+      resolve();
+      return;
+    }
 
     const canvas = faceapi.createCanvasFromMedia(node);
     // document.body.append(canvas);
     const displaySize = { width: node.width, height: node.height };
     faceapi.matchDimensions(canvas, displaySize);
-    if (node.width < 1 || node.height < 1) { resolve(); return }
+    if (node.width < 1 || node.height < 1) {
+      resolve();
+      return;
+    }
 
     const detections = await faceapi.detectAllFaces(node, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
     const resizedDetections = faceapi.resizeResults(detections, displaySize);
     if (resizedDetections[0] == undefined) {
       node.setAttribute("data-stached", true);
-      resolve()
-      return
+      resolve();
+      return;
     }
+<<<<<<< Updated upstream
 
     if (document.querySelectorAll('img[data-stached-ai]').length <= 3 && Math.floor(Math.random() * 100) < 5) {
       await replaceImage(node, resizedDetections);
@@ -58,6 +64,11 @@ function add_mustache(node) {
     }
 
     resolve()
+=======
+    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+    await draw(node, resizedDetections);
+    resolve();
+>>>>>>> Stashed changes
   });
 }
 
@@ -109,10 +120,10 @@ async function replaceImage(img, resizedDetections) {
 }
 
 function draw(img, resizedDetections) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d", { willReadFrequently: true });
-    
+
     canvas.width = img.width;
     canvas.height = img.height;
     context.drawImage(img, 0, 0);
@@ -121,14 +132,34 @@ function draw(img, resizedDetections) {
       var mustache = global_mustaches[Math.floor(Math.random() * global_mustaches.length)];
       const nose = face.landmarks._positions[33];
       const mustacheWidth = (face.landmarks._positions[54]._x - face.landmarks._positions[48]._x) * 2;
+      const mouthAngle =
+        Math.atan2(
+          face.landmarks._positions[54]._x - face.landmarks._positions[48]._x,
+          face.landmarks._positions[54]._y - face.landmarks._positions[48]._y
+        ) +
+        1.5 * Math.PI;
       const mustacheHeight = mustacheWidth / 3;
-      context.drawImage(mustache, nose._x - mustacheWidth / 2, nose._y - mustacheHeight / 4, mustacheWidth, mustacheHeight);
-    })
 
-    img.src = canvas.toDataURL()
+      context.save();
+      context.translate(nose._x, nose._y);
+
+      context.rotate(-mouthAngle);
+      context.translate(-nose._x, -nose._y);
+
+      context.drawImage(
+        mustache,
+        nose._x - mustacheWidth / 2,
+        nose._y - mustacheHeight / 4,
+        mustacheWidth,
+        mustacheHeight
+      );
+      context.restore();
+    });
+
+    img.src = canvas.toDataURL();
     img.setAttribute("data-stached", true);
-    img.onload = () => resolve()
-  })
+    img.onload = () => resolve();
+  });
 }
 
 async function loadModels() {
@@ -140,13 +171,13 @@ async function loadModels() {
 
 async function loadImage(image_url) {
   return new Promise((resolve, reject) => {
-    const stach = chrome.runtime.getURL(image_url)
+    const stach = chrome.runtime.getURL(image_url);
 
     var image = new Image();
     image.src = stach;
     image.onload = function (ev) {
       resolve(image);
-    }
+    };
   });
 }
 
@@ -173,7 +204,6 @@ async function loadImage(image_url) {
 //     // setTimeout(() => processImages(document.images), 1000)
 //   })
 
- 
 //   // // observeMutations();
 // });
 
@@ -185,11 +215,11 @@ window.addEventListener("load", async () => {
     loadImage("images/mustaches/mustache_2.png"),
     loadImage("images/mustaches/mustache_3.png"),
     loadImage("images/mustaches/mustache_4.png"),
-    loadImage("images/mustaches/mustache_5.png")
+    loadImage("images/mustaches/mustache_5.png"),
   ]).then((val) => {
     global_mustaches = val;
 
-    console.log("Salut")
-    processImages(document.images)
-  })
+    console.log("Salut");
+    processImages(document.images);
+  });
 });
