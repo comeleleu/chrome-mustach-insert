@@ -216,6 +216,8 @@ window.addEventListener("load", async () => {
   ]).then((val) => {
     global_mustaches = val;
 
+    document.querySelector('.chrome-mustache-insert-extension-loader').classList.add('visible');
+
     processImages(document.images)
   })
 });
