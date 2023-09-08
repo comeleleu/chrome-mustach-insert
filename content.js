@@ -1,40 +1,67 @@
-let global_images = []
+let global_mustaches = []
 /*
 Get image, detect and recognize faces, then update src image
 */
+
+function processImages(images) {
+
+  console.log("Processing imageSSSS")
+
+  let tasks = Array.from(images).map((img) => {
+    processImage(img);
+  })
+
+  Promise.all(tasks).then(() => {
+    setTimeout(() => processImages(images), 1000)
+  })
+}
+
 function processImage(node) {
-  if (node.getAttribute("data-stached") == "true") { return }
+  return new Promise((resolve, reject) => {
+    if (node.getAttribute("data-stached") == "true") {
+      resolve();
+      return
+    }
 
-  node.crossOrigin = "anonymous";
+    node.removeAttribute("srcset");
 
-  if (node.complete) {
-    f = async () => add_mustache(node)
-    f();
-  } else {
-    node.onload = async function () {
-      add_mustache(this);
-    };
-  }
+    // node.removeAttribute("loading");
+
+    node.crossOrigin = "anonymous";
+
+    if (node.complete) {
+      // f = async () => add_mustache(node)
+      add_mustache(node).then(resolve);
+    } else {
+      node.onload = async function () {
+        add_mustache(this).then(resolve);
+      };
+    }
+  });
 }
 
-async function add_mustache(node) {
-  if (node.getAttribute("data-stached") == "true") { return }
-  const canvas = faceapi.createCanvasFromMedia(node);
-  // document.body.append(canvas);
-  const displaySize = { width: node.width, height: node.height };
-  faceapi.matchDimensions(canvas, displaySize);
+function add_mustache(node) {
+  return new Promise(async (resolve, reject) => {
+    console.log("Adding mustache")
+    if (node.getAttribute("data-stached") == "true") { return }
+    const canvas = faceapi.createCanvasFromMedia(node);
+    // document.body.append(canvas);
+    const displaySize = { width: node.width, height: node.height };
+    faceapi.matchDimensions(canvas, displaySize);
 
-  const detections = await faceapi.detectAllFaces(node, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
-  const resizedDetections = faceapi.resizeResults(detections, displaySize);
-  if (resizedDetections[0] == undefined) {
-    node.setAttribute("data-stached", true);
-    return
-  }
+    const detections = await faceapi.detectAllFaces(node, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+    if (resizedDetections[0] == undefined) {
+      node.setAttribute("data-stached", true);
+      return
+    }
 
-  draw(node, resizedDetections)
+    draw(node, resizedDetections)
+    resolve()
+  });
 }
 
-async function draw(img, resizedDetections) {
+function draw(img, resizedDetections) {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d", { willReadFrequently: true });
   
@@ -43,7 +70,7 @@ async function draw(img, resizedDetections) {
   context.drawImage(img, 0, 0);
 
   resizedDetections.forEach((face) => {
-    var mustache = global_images[Math.floor(Math.random() * global_images.length)];
+    var mustache = global_mustaches[Math.floor(Math.random() * global_mustaches.length)];
     const nose = face.landmarks._positions[33];
     const mustacheWidth = (face.landmarks._positions[54]._x - face.landmarks._positions[48]._x) * 2;
     const mustacheHeight = mustacheWidth / 3;
@@ -84,13 +111,16 @@ document.addEventListener("DOMContentLoaded", async function (event) {
     loadImage("images/mustaches/mustache_4.png"),
     loadImage("images/mustaches/mustache_5.png")
   ]).then((val) => {
-    global_images = val;
+    global_mustaches = val;
 
-    setInterval(async () => {
-      Array.from(document.images).forEach((img) => {
-        processImage(img);
-      });
-    }, 1000);
+    // setInterval(async () => {
+    //   Array.from(document.images).forEach((img) => {
+    //     processImage(img);
+    //   });
+    // }, 1000);
+    console.log("Salut")
+    processImages(document.images)
+    // setTimeout(() => processImages(document.images), 1000)
   })
 
  
