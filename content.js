@@ -1,11 +1,10 @@
 let global_mustaches = [];
+let global_stablediffusion_api_key = "";
 /*
 Get image, detect and recognize faces, then update src image
 */
 
 function processImages(images) {
-  console.log("Processing imageSSSS");
-
   let tasks = Array.from(images).map((img) => {
     processImage(img);
   });
@@ -33,14 +32,12 @@ function processImage(node) {
 
 function add_mustache(node) {
   return new Promise(async (resolve, reject) => {
-    console.log("Adding mustache");
     if (node.getAttribute("data-stached") == "true") {
       resolve();
       return;
     }
 
     const canvas = faceapi.createCanvasFromMedia(node);
-    // document.body.append(canvas);
     const displaySize = { width: node.width, height: node.height };
     faceapi.matchDimensions(canvas, displaySize);
     if (node.width < 1 || node.height < 1) {
@@ -56,7 +53,7 @@ function add_mustache(node) {
       return;
     }
 
-    if (document.querySelectorAll("img[data-stached-ai]").length <= 10 && Math.floor(Math.random() * 100) < 25) {
+    if (global_stablediffusion_api_key && document.querySelectorAll("img[data-stached-ai]").length <= 10 && Math.floor(Math.random() * 100) < 25) {
       await replaceImage(node, resizedDetections);
     } else {
       await draw(node, resizedDetections);
@@ -72,7 +69,7 @@ async function replaceImage(img, resizedDetections) {
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
-    key: "DSZQGGaPcb3HdpexWRvxkP7rN7GrLIcwr6RErIW9AzLL7ezVQrS1r0clJd9g",
+    key: global_stablediffusion_api_key,
     prompt: "people have mustaches",
     negative_prompt: null,
     init_image: imageUrl,
@@ -111,7 +108,6 @@ async function replaceImage(img, resizedDetections) {
       }
     })
     .catch(error => {
-      console.log('error', error)
       draw(img, resizedDetections);
     });
 }
@@ -178,32 +174,6 @@ async function loadImage(image_url) {
   });
 }
 
-// Entry point
-// document.addEventListener("DOMContentLoaded", async function (event) {
-//   await loadModels();
-
-//   Promise.all([
-//     loadImage("images/mustaches/mustache_1.png"),
-//     loadImage("images/mustaches/mustache_2.png"),
-//     loadImage("images/mustaches/mustache_3.png"),
-//     loadImage("images/mustaches/mustache_4.png"),
-//     loadImage("images/mustaches/mustache_5.png")
-//   ]).then((val) => {
-//     global_mustaches = val;
-
-//     // setInterval(async () => {
-//     //   Array.from(document.images).forEach((img) => {
-//     //     processImage(img);
-//     //   });
-//     // }, 1000);
-//     console.log("Salut")
-//     processImages(document.images)
-//     // setTimeout(() => processImages(document.images), 1000)
-//   })
-
-//   // // observeMutations();
-// });
-
 window.addEventListener("load", async () => {
   await loadModels();
 
@@ -215,14 +185,6 @@ window.addEventListener("load", async () => {
     loadImage("images/mustaches/mustache_5.png"),
   ]).then((val) => {
     global_mustaches = val;
-
-    setTimeout(() => {
-      document.querySelector('.chrome-mustache-insert-extension-loader').classList.add('visible');
-      setTimeout(() => {
-        document.querySelector('.chrome-mustache-insert-extension-loader').classList.remove('visible');
-      }, 10000);
-    }, 12000);
-
     processImages(document.images)
   })
 });
